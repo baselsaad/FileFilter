@@ -20,7 +20,7 @@ bool checkLetters(std::string& word) {
     return true;
 }
 
-std::string readFileAsString(const std::string& filepath, const int& letterslength, bool& outSuccess) {
+std::string readFileAsString(const std::string& filepath, const int& length, bool& outSuccess) {
     std::ifstream stream;
     std::string line;
     std::string data;
@@ -33,18 +33,17 @@ std::string readFileAsString(const std::string& filepath, const int& lettersleng
         outSuccess = false;
     }
 
-
     if (stream) {
-        //FIX this Need to read a line with many words//
-        while (std::getline(stream, line)) {
+        while (stream >> line) {
             if (checkLetters(line)) {
-                if (line.size() == letterslength) {
-                    data.append(line + "\n");
+                if (line.size() == length) {
+                    data += line + "\n";
                 }
             }
         }
-        stream.close();
+
         outSuccess = true;
+        stream.close();
         return data;
     }
 
@@ -96,5 +95,7 @@ void startProgramm() {
 int main() {
     startProgramm();
     system("pause");
+
+    return 0;
 }
 
