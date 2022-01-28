@@ -85,10 +85,10 @@ void startProgramm() {
     data = readFileAsString(filePath, letterLength, outSuccess);
     if (outSuccess) {
         writeStringAsFile(data, newFilePath);
-        std::cout << "The data has been successfully filtered\n";
+        std::cout << "The data has been successfully filtered";
     }
     else {
-        std::cout << "No data was found in the file\n";
+        std::cout << "No data was found in the file";
     }
 
 }
