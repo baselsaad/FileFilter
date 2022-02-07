@@ -29,7 +29,7 @@ std::string readFileAsString(const std::string& filepath, const int& length, boo
         stream.open(filepath, std::ios::in);
     }
     catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
         outSuccess = false;
     }
 
@@ -76,7 +76,7 @@ void startProgramm() {
 
     }
     catch (std::exception& e) {
-        std::cerr << e.what();
+        std::cout << e.what();
     }
 
 
