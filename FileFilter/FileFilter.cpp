@@ -76,9 +76,8 @@ void startProgramm() {
 
     }
     catch (std::exception& e) {
-        std::cerr << e.what();
+        throw e.what();
     }
-
 
 
     data = readFileAsString(filePath, letterLength, outSuccess);
