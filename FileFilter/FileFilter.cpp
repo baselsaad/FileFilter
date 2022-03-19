@@ -20,7 +20,7 @@ bool checkLetters(std::string& word) {
     return true;
 }
 
-std::string readFileAsString(const std::string& filepath, const int& length, bool& outSuccess) {
+std::string readFileAsString(const std::string& filepath, const int& length, bool& outSuccess)throw (std::exception) {
     std::ifstream stream;
     std::string line;
     std::string data;
@@ -54,13 +54,23 @@ std::string readFileAsString(const std::string& filepath, const int& length, boo
 
 void writeStringAsFile(const std::string& data, const std::string& path) {
     std::ofstream outFile;
-    outFile.open(path, std::ios::out);
-    outFile << data << std::endl;
-    outFile.close();
+    try {
+        outFile.open(path, std::ios::out);
+        outFile << data << std::endl;
+        outFile.close();
+    }
+    catch (std::exception& msg) {
+        std::cerr << "Error: " << msg.what() << std::endl;
+    }
+   
+    
 }
 
-void startProgramm() {
-    std::string filePath, newFilePath, data;
+void startProgramm(bool& outEnd) {
+    std::string filePath;
+    std::string newFilePath;
+    std::string data;
+
     int letterLength = 1;
     bool outSuccess = false;
 
@@ -74,25 +84,50 @@ void startProgramm() {
         std::cout << "\nNumber of letters: ";
         std::cin >> letterLength;
 
+        data = readFileAsString(filePath, letterLength, outSuccess);
+    }
+    catch (std::runtime_error& msg) {
+        std::cerr << "Runtime Error: " << msg.what() << std::endl;
     }
     catch (std::exception& e) {
-        throw e.what();
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    catch (...) {
+        std::cerr << "Unknown failure occurred." << std::endl;
     }
 
-
-    data = readFileAsString(filePath, letterLength, outSuccess);
+   
     if (outSuccess) {
         writeStringAsFile(data, newFilePath);
         std::cout << "The data has been successfully filtered";
+        outEnd = true;
     }
     else {
         std::cout << "No data was found in the file";
+        outEnd = false;
     }
 
 }
 
 int main() {
-    startProgramm();
+    bool outEnd = false;
+    while (!outEnd) {
+        try {
+            startProgramm(outEnd);
+        }
+        catch (std::runtime_error& msg) {
+            std::cerr << msg.what()<<std::endl;
+        }
+        catch (std::exception& msg) {
+            std::cerr << msg.what() << std::endl;
+        }
+        catch (...) {
+            std::cerr << "Unknown failure occurred." << std::endl;
+        }
+    }
+    
+
+
     system("pause");
 
     return 0;
